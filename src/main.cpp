@@ -1,12 +1,20 @@
-//I dont know if i use this or not...
-#include <corecrt.h>
+#include <iostream>
+#include <string>
 #define SDL_MAIN_HANDLED
 //SDL
 #include <SDL.h>
 #include <SDL_events.h>
 #include "FatalError.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
+	for (int ar = 0; ar < argc; ar++) {
+		std::string a(argv[ar]);
+
+		if (a.compare("--version") == 0 || a.compare("-v") == 0) {
+			std::cout << "CallumApp v0.0.0";
+			return 0;
+		}
+	}
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		Fatal::FATAL("SDL2 failed to initialize!", __FILE_NAME__, __LINE__, __FUNCTION__);
 		return 1;
