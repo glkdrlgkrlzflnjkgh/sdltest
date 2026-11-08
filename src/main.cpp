@@ -1,15 +1,34 @@
-#include <SDL_video.h>
+//I dont know if i use this or not...
+#include <corecrt.h>
 #define SDL_MAIN_HANDLED
+//SDL
 #include <SDL.h>
+#include <SDL_events.h>
+#include "FatalError.hpp"
 
 int main() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error!", "SDL2 failed to initialize!", nullptr);
+		Fatal::FATAL("SDL2 failed to initialize!", __FILE_NAME__, __LINE__, __FUNCTION__);
 		return 1;
 	}
+	Uint32 renderFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 	SDL_Window* win = SDL_CreateWindow("Callum's SDL2 thing!", 100, 100, 400, 600, SDL_WINDOW_SHOWN);
+	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, renderFlags);
 	if (win == nullptr) {
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error!", "SDL2 failed to create a window!", nullptr);
+		Fatal::FATAL("Failed to create window!", __FILE_NAME__, __LINE__, __FUNCTION__);
 	}
+	if (renderer == nullptr) {
+		Fatal::FATAL("Failed to create renderer!", __FILE_NAME__, __LINE__, __FUNCTION__);
+	}
+	bool running = true;
+	SDL_Event e;
+	while (running) {
+		while (SDL_PollEvent(&e)) {
+			if (e.type == SDL_QUIT) {
+				running = false;
+			}
+		}
+	}
+	SDL_Quit();
     return 0;
 }
