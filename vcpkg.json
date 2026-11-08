@@ -1,0 +1,7 @@
+{
+   "name": "sdl2-ttf-example",
+   "version": "1.0.0",
+   "dependencies": [
+       "sdl2"
+   ]
+}
