@@ -1,10 +1,10 @@
-#include <SDL_log.h>
 #include <fmt/base.h>
-#include <iostream>
 #include <string>
 #define SDL_MAIN_HANDLED
 //SDL
 #include <SDL.h>
+#include <SDL_log.h>
+#include <SDL_messagebox.h>
 #include <SDL_events.h>
 #include "FatalError.hpp"
 
@@ -13,7 +13,12 @@ int main(int argc, char* argv[]) {
 		std::string a(argv[ar]);
 
 		if (a.compare("--version") == 0 || a.compare("-v") == 0) {
-			std::cout << "CallumApp v0.0.0";
+			if (a.compare("--gui")) {
+				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Information", "version 0.0.0", nullptr);
+			}
+			else {
+				fmt::println("Version 0.0.0");
+			}
 			return 0;
 		}
 	}
