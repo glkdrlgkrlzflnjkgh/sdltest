@@ -11,6 +11,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}/CppSt
 message(STATUS "Finding SDL2...")
 find_package(SDL2 CONFIG REQUIRED) # you **MUST** have SDL2 installed, no exceptions.
 message(STATUS "Found SDL2!")
+
+message(STATUS "Finding fmt...")
+find_package(fmt CONFIG REQUIRED)
+message(STATUS "Found fmt!")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_executable(${PROJECT_NAME} 
@@ -18,4 +22,4 @@ add_executable(${PROJECT_NAME}
     src/FatalError.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main) #NB! SDL2Main is technically unused as we define SDL_MAIN_HANDLED in main.cpp.
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main fmt::fmt) #NB! SDL2Main is technically unused as we define SDL_MAIN_HANDLED in main.cpp.

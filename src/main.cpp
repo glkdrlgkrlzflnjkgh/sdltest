@@ -1,3 +1,5 @@
+#include <SDL_log.h>
+#include <fmt/base.h>
 #include <iostream>
 #include <string>
 #define SDL_MAIN_HANDLED
