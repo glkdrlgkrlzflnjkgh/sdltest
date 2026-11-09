@@ -18,8 +18,11 @@ message(STATUS "Found fmt!")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_executable(${PROJECT_NAME} 
-    src/main.cpp
+    src/Main.cpp
     src/FatalError.cpp
+    src/Log.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main fmt::fmt) #NB! SDL2Main is technically unused as we define SDL_MAIN_HANDLED in main.cpp.
+target_compile_options(SDLTest PRIVATE -fsanitize=address)
+target_link_options(SDLTest PRIVATE -fsanitize=address)

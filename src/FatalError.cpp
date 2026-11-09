@@ -10,4 +10,5 @@ void Fatal::FATAL(const char* msg, const char* file, int line, const char* func)
     }
         
     fmt::println(fullMsg);
+    abort();
 }
