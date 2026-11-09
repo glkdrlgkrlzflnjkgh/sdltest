@@ -3,7 +3,7 @@ set(CMAKE_TOOLCHAIN_FILE "C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake")
 project(SDLTest)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED)
+set(CMAKE_CXX_STANDARD_REQUIRED yes)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}/CppStd${CMAKE_CXX_STANDARD}/${CMAKE_HOST_SYSTEM_NAME})
@@ -24,5 +24,3 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main fmt::fmt) #NB! SDL2Main is technically unused as we define SDL_MAIN_HANDLED in main.cpp.
-target_compile_options(SDLTest PRIVATE -fsanitize=address)
-target_link_options(SDLTest PRIVATE -fsanitize=address)

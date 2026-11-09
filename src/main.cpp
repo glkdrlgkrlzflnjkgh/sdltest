@@ -10,7 +10,12 @@
 #include <SDL_events.h>
 #include "FatalError.hpp"
 
+//My own stuff
+#include "Log.hpp"
+
+
 int main(int argc, char* argv[]) {
+	Logging::Logger logger;
 	for (int ar = 0; ar < argc; ar++) {
 		std::string a(argv[ar]);
 		if (a.compare("--version") == 0 || a.compare("-v") == 0) {
@@ -18,25 +23,31 @@ int main(int argc, char* argv[]) {
 			return 0;
 		}
 	}
-	fmt::println("Initializing...");
+	// --- SDL INIT ---
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		Fatal::FATAL("SDL2 failed to initialize!", __FILE_NAME__, __LINE__, __FUNCTION__);
 		return 1;
 	}
 	Uint32 renderFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-	SDL_Window* win = SDL_CreateWindow("Callum's SDL2 thing!", 100, 100, 480, 360, SDL_WINDOW_SHOWN);
+	Uint32 windowFlags = SDL_WINDOW_HIDDEN;
+	SDL_Window* win = SDL_CreateWindow("Callum's SDL2 thing!", 100, 100, 480, 360, windowFlags);
 	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, renderFlags);
-	if (win == nullptr) {
+	if (!win) {
 		Fatal::FATAL("Failed to create window!", __FILE_NAME__, __LINE__, __FUNCTION__);
 	}
-	if (renderer == nullptr) {
+	if (!renderer) {
 		Fatal::FATAL("Failed to create renderer!", __FILE_NAME__, __LINE__, __FUNCTION__);
 	}
+	// --- MAIN LOOP ---
 	bool running = true;
 	SDL_Event e;
+	logger.log("Showing window!", Logging::LogLevel::INFO);
+	SDL_ShowWindow(win);
+	logger.log("Entering main loop!", Logging::LogLevel::INFO);
 	while (running) {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT) {
+				logger.log("Quit requested!", Logging::LogLevel::INFO);
 				running = false;
 			}
 
@@ -47,6 +58,12 @@ int main(int argc, char* argv[]) {
 		SDL_RenderDrawLine(renderer, 0, 0, 480, 360);
 		SDL_RenderPresent(renderer);
 	}
+	logger.log("Destroying renderer....", Logging::LogLevel::INFO);
+	SDL_DestroyRenderer(renderer);
+	logger.log("Destroying window...", Logging::LogLevel::INFO);
+	SDL_DestroyWindow(win);
+	logger.log("Shutting down SDL2 :C", Logging::LogLevel::INFO);
 	SDL_Quit();
+	logger.log("Goodbye!", Logging::LogLevel::INFO);
     return 0;
 }
